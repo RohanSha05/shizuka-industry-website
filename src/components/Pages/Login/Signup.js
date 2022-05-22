@@ -1,56 +1,74 @@
 import React from 'react';
 import auth from '../../../firebase.init';
-import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from "react-hook-form";
 import Loading from '../Shared/Loading';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
-const Login = () => {
-
+const Signup = () => {
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
     const [
-        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword,
         user,
         loading,
         error,
-    ] = useSignInWithEmailAndPassword(auth);
+    ] = useCreateUserWithEmailAndPassword(auth);
 
     const { register, formState: { errors }, handleSubmit } = useForm();
+    const [updateProfile, updating, updateError] = useUpdateProfile(auth);
 
     const navigate = useNavigate();
-    const location = useLocation();
-    let from = location.state?.from?.pathname || "/";
 
     let signInError;
 
-    if (loading || gLoading) {
+    if (updating || loading || gLoading) {
         return <Loading></Loading>
     }
-    if (error || gError) {
+    if (updateError || error || gError) {
         signInError = <p className='text-red-500'>{error?.message || gError?.message}</p>
     }
 
-    if (user || gUser) {
-        navigate(from, { replace: true });
+    if (gUser) {
+        console.log(gUser)
     }
 
-    const onSubmit = data => {
+    const onSubmit = async data => {
         console.log(data);
-        signInWithEmailAndPassword(data.email, data.password)
+        await createUserWithEmailAndPassword(data.email, data.password);
+        await updateProfile({ displayName: data.name });
+        navigate('/purchase')
     }
-
     return (
         <div class="hero min-h-screen bg-base-200">
             <div class="hero-content flex-col lg:flex-row-reverse">
                 <div class="text-center lg:text-left">
-                    <h1 class="text-5xl font-bold">Login now!</h1>
+                    <h1 class="text-5xl font-bold">SignUp now!</h1>
                     <p class="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
                 </div>
                 <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                     <div class="card-body">
                         <form onSubmit={handleSubmit(onSubmit)}>
 
+                            <div class="form-control w-full max-w-xs">
+                                <label class="label">
+                                    <span class="label-text">Name</span>
+                                </label>
+                                <input type="text"
+                                    placeholder="Your Name"
+                                    class="input input-bordered w-full max-w-xs"
+                                    {...register("name", {
+                                        required: {
+                                            value: true,
+                                            message: 'Name is required'
+                                        }
+                                    })}
+                                />
+                                <label class="label">
+                                    {errors.name?.type === 'required' && <span class="label-text-alt text-red-500">{errors.name.message}</span>}
+
+                                </label>
+                            </div>
                             <div class="form-control w-full max-w-xs">
                                 <label class="label">
                                     <span class="label-text">Email</span>
@@ -95,9 +113,9 @@ const Login = () => {
                                 </label>
                             </div>
 
-                            <input className='btn w-full max-w-xs' type="submit" value='Login ' />
+                            <input className='btn w-full max-w-xs' type="submit" value='SignUp ' />
                             <small>{signInError}</small>
-                            <small><p>New to Shizuka? <Link className=' text-blue-500' to='/signup'>Create New Account</Link></p></small>
+                            <small><p>Already Registered? <Link className=' text-blue-500' to='/login'>Please Login</Link></p></small>
                         </form>
                         <div class="divider">OR</div>
                         <button
@@ -110,4 +128,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Signup;
