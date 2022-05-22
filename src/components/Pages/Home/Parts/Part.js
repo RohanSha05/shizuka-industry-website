@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Part = ({ part }) => {
-    console.log(part)
     return (
         <div class="card w-80 bg-base-100 shadow-xl">
             <figure class="px-10 pt-10">
