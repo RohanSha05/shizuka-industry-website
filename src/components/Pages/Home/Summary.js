@@ -16,7 +16,7 @@ const Summary = () => {
                         </div>
                         <div class="stat-title">Annual Revenue</div>
                         <div class="stat-value">400M+</div>
-                        <div class="stat-desc">Jan 1st - Feb 1st</div>
+                        <div class="stat-desc">2021-2022</div>
                     </div>
 
                     <div class="stat place-items-center">
