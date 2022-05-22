@@ -1,12 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../Navbar/logo.png'
 
 const Navbar = () => {
 
     const navItems = <>
-        <li><a>Home</a></li>
-        <li><a>Blogs</a></li>
-        <li><a>Dashboard</a></li>
+        <li><Link to='/'>Home</Link></li>
+        <li><Link to='/about'>About</Link></li>
+        <li><Link to='/dashboard'>Dashboard</Link></li>
     </>
 
     return (
