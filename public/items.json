@@ -1,0 +1,74 @@
+[
+    {
+        "id": "1",
+        "name": "Bike Engine",
+        "img": "https://i.ibb.co/GvN7NFX/bike-engine.png",
+        "description": "155 cc engine.This Gixxer engine generates a power of 13.6 PS @ 8000 rpm and a torque of 13.8 Nm @ 6000 rpm.",
+        "price": 22500,
+        "minQuantity": 20,
+        "availableQuantity": 20
+    },
+    {
+        "id": "2",
+        "name": "Disc Brake",
+        "img": "https://i.ibb.co/XVg91yp/disc-brake.png",
+        "description": "Rear Disc Brakes ; Rear Type, Drum ; Rear Disc/Drum Size, 130 mm ; Front Disc/Drum Size, 266 mm",
+        "price": 29500,
+        "minQuantity": 20,
+        "availableQuantity": 20
+    },
+    {
+        "id": "3",
+        "name": "transmission 1",
+        "img": "https://i.ibb.co/J77WrbH/transmission-1.png",
+        "description": "Max Torque, 13.8 Nm @ 6000 rpm ; No. of Cylinders, 1 ; Cooling System, Air Cooled ; Valve Per Cylinder, 2 ",
+        "price": 28000,
+        "minQuantity": 20,
+        "availableQuantity": 20
+    },
+    {
+        "id": "4",
+        "name": "Transmission 2",
+        "img": "https://i.ibb.co/jRhcjhy/transmission-2.png",
+        "description": "consists of a single downtube frame that houses the 154.9cc air cooled, 2-valve, 1-cylinder",
+        "price": 31500,
+        "minQuantity": 20,
+        "availableQuantity": 20
+    },
+    {
+        "id": "5",
+        "name": "Frame",
+        "img": "https://i.ibb.co/BcfYg0R/frame.png",
+        "description": "Grabby looks,Rides well,Standard safety tech,Decent value",
+        "price": 30000,
+        "minQuantity": 20,
+        "availableQuantity": 20
+    },
+    {
+        "id": "6",
+        "name": "Headlight",
+        "img": "https://i.ibb.co/dMGk50y/headlight.png",
+        "description": "Sulfar T10-COB Universal Glass Enclosed T10 W5W LED Parking Light Super Bright White",
+        "price": 33000,
+        "minQuantity": 20,
+        "availableQuantity": 20
+    },
+    {
+        "id": "7",
+        "name": "Wheels",
+        "img": "https://i.ibb.co/HdTgKYP/wheels.png",
+        "description": "Finishing, Color Coated. Number Of Spoke Holes, 3 Hole. Wheel Diameter, 20 Inch. Material, Mild Steel.",
+        "price": 33000,
+        "minQuantity": 20,
+        "availableQuantity": 20
+    },
+    {
+        "id": "8",
+        "name": "Chain",
+        "img": "https://i.ibb.co/RQWbqtG/chain.png",
+        "description": "Mild Steel Suzuki Gixxer Chain Sprocket Kit. Packaging Type- Box Finishing.",
+        "price": 30000,
+        "minQuantity": 20,
+        "availableQuantity": 20
+    }
+]
