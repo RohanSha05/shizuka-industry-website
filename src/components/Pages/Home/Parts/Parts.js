@@ -3,6 +3,7 @@ import Part from './Part';
 
 const Parts = () => {
     const [parts, setParts] = useState([]);
+    const [items, setItems] = useState(null)
 
     useEffect(() => {
         fetch('http://localhost:5000/part')
@@ -17,7 +18,7 @@ const Parts = () => {
             <h1 className='text-5xl text-center mt-5 font-bold'>Hot Deals</h1>
             <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
                 {
-                    sixParts.map(part => <Part key={part._id} part={part}></Part>)
+                    sixParts.map(part => <Part key={part._id} setItems={setItems} part={part}></Part>)
                 }
             </div>
         </div>

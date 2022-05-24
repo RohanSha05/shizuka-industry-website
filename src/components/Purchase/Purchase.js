@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
+import { toast } from 'react-toastify';
 
 
 const Purchase = () => {
@@ -23,21 +24,47 @@ const Purchase = () => {
 
     const { _id, name, availableQuantity, description, img, price } = part;
 
-    const { register, formState: { errors }, handleSubmit } = useForm();
+    const { register, formState: { errors }, handleSubmit = () => { } } = useForm();
+
 
     let orderError;
-    const onSubmit = data => {
-        data.preventDefault();
-        const quantity = data.target.quantity.value;
-        navigate('/dashboard')
 
-        const orders = {
+
+    const onSubmit = data => {
+        // data.prdataDefault();
+        // console.log(data)
+        /* const quantity = data.target.quantity.value;
+        const phoneNumber = data.target.phone.value; */
+        // navigate('/dashboard')
+
+        const quantity = data.quantity;
+        const totalPrice = quantity * price;
+
+        console.log(totalPrice)
+
+        const order = {
             partsId: _id,
             parts: name,
-            quantity: quantity,
-            customer: user.email,
-            customerName: user.displayName
+            totalPrice: totalPrice,
+            customerEmail: data.email,
+            CustomerName: data.name,
+            contact: data.number,
+            image: img
         }
+
+        fetch('http://localhost:5000/order', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(order)
+        })
+            .then(res => res.json())
+            .then(data => {
+                toast('Order Delivered Successfully', data)
+            })
+
+        // console.log(order);
     };
 
 
@@ -54,11 +81,8 @@ const Purchase = () => {
                                     <label class="label">
                                         <span class="label-text">Name</span>
                                     </label>
-                                    <input disabled value={user.displayName}  {...register("name", {
-                                        required: {
-                                            value: true,
-                                            message: 'Name is required'
-                                        }
+                                    <input name='name' disabled   {...register("name", {
+                                        value: user.displayName
                                     })}
                                         type="text" placeholder="Your Name" class="input input-bordered" />
                                     <label class="label">
@@ -70,13 +94,10 @@ const Purchase = () => {
                                         <span class="label-text">Email</span>
                                     </label>
                                     <input
+                                        name='email'
                                         disabled
-                                        value={user.email}
                                         {...register("email", {
-                                            required: {
-                                                value: true,
-                                                message: 'Email is required'
-                                            }
+                                            value: user.email
                                         })}
                                         type="email" placeholder="Your Email" class="input input-bordered" />
                                     <label class="label">
@@ -104,6 +125,15 @@ const Purchase = () => {
                                         {errors.quantity?.type === 'max' && <span class="label-text-alt text-red-500">{errors.quantity.message}</span>}
                                         {orderError}
                                     </label>
+                                    <label class="label">
+                                        <span class="label-text">Phone</span>
+                                    </label>
+                                    <input
+                                        {...register("number",
+
+                                        )}
+                                        name='number'
+                                        type="number" placeholder="Phone Number" class="input input-bordered" />
                                 </div>
                                 <input type="submit" class="btn btn-primary" value='Order' />
 

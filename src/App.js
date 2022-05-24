@@ -11,6 +11,8 @@ import Signup from './components/Pages/Login/Signup';
 import Footer from './components/Pages/Shared/Footer/Footer';
 import Navbar from './components/Pages/Shared/Navbar/Navbar';
 import Purchase from './components/Purchase/Purchase';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -28,6 +30,7 @@ function App() {
         </Route>
       </Routes>
       <Footer></Footer>
+      <ToastContainer />
     </div>
   );
 }

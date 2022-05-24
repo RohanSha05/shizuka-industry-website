@@ -37,7 +37,7 @@ const Signup = () => {
         console.log(data);
         await createUserWithEmailAndPassword(data.email, data.password);
         await updateProfile({ displayName: data.name });
-        navigate('/purchase')
+        navigate('/')
     }
     return (
         <div class="hero min-h-screen bg-base-200">

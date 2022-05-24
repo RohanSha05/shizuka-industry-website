@@ -1,6 +1,6 @@
 import { signOut } from 'firebase/auth';
 import React from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { useAuthState, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { Link } from 'react-router-dom';
 import auth from '../../../../firebase.init';
 import logo from '../Navbar/logo.png'
@@ -8,6 +8,7 @@ import logo from '../Navbar/logo.png'
 const Navbar = () => {
 
     const [user, loading, error] = useAuthState(auth);
+    const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
 
     const logout = () => {
         signOut(auth);
@@ -38,6 +39,18 @@ const Navbar = () => {
                         user ? <li><Link to='/dashboard'>Dashboard</Link></li> : <></>
                     }
                 </ul>
+            </div>
+            <div className='navbar-end'>
+                {
+                    user ?
+                        <div className='flex '>
+                            <p className=' font-bold flex items-center mr-3'>{user.displayName}</p>
+                            <div className='avatar online w-14'>
+                                <img src={user.photoURL || gUser.photoURL} className=' rounded-full' alt="" />
+                            </div>
+                        </div> : <></>
+                }
+
             </div>
             <div class="navbar-end">
                 {
