@@ -10,12 +10,14 @@ const Parts = () => {
             .then(data => setParts(data))
     }, [])
 
+    const sixParts = parts.slice(0, 6)
+
     return (
         <div className='m-10'>
             <h1 className='text-5xl text-center mt-5 font-bold'>Hot Deals</h1>
             <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
                 {
-                    parts.map(part => <Part key={part.id} part={part}></Part>)
+                    sixParts.map(part => <Part key={part._id} part={part}></Part>)
                 }
             </div>
         </div>
