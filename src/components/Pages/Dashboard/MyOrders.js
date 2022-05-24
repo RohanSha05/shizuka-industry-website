@@ -86,7 +86,14 @@ const MyOrders = () => {
                             <td>${order.totalPrice}</td>
                             <th>
 
-                                <Link className='btn btn-primary btn-xs' to='/payment'>Payment</Link>
+                                <div>
+                                    {
+                                        (!order.paid) && <Link className='btn btn-primary btn-xs' to={`/dashboard/payment/${order._id}`}>Payment</Link>
+                                    }
+                                    {
+                                        (order.paid) && <Link className='btn btn-success btn-xs' to={``}></Link>
+                                    }
+                                </div>
                                 <label for="delete-modal" class="btn modal-button btn-xs btn-primary ml-4">Delete</label>
 
                                 <input type="checkbox" id="delete-modal" class="modal-toggle" />
