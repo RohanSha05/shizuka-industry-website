@@ -1,6 +1,6 @@
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CheckoutForm from './CheckoutForm';
 
@@ -18,10 +18,14 @@ const Payment = () => {
             method: 'GET'
         }).then(res => res.json())
     }) */
-    fetch(url, {
-        method: 'GET'
-    }).then(res => res.json())
-        .then(data => setOrder(data))
+    useEffect(() => {
+
+        fetch(url, {
+            method: 'GET'
+        }).then(res => res.json())
+            .then(data => setOrder(data))
+    }
+        , [order])
 
 
     return (
@@ -38,7 +42,7 @@ const Payment = () => {
             <div class="card flex-shrink-0 w-50 max-w-md shadow-2xl bg-base-100">
                 <div class="card-body">
                     <Elements stripe={stripePromise}>
-                        <CheckoutForm />
+                        <CheckoutForm order={order} />
                     </Elements>
                 </div>
             </div>

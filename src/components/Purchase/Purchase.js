@@ -115,10 +115,10 @@ const Purchase = () => {
                                         name='quantity'
                                         type="number" {...register("quantity",
                                             {
-                                                min: { value: 500, message: "Minimum order 500" },
+                                                min: { value: 150, message: "Minimum order 150" },
                                                 max: { value: availableQuantity, message: "Don't Have stock" }
                                             },
-                                        )} placeholder="500" class="input input-bordered" />
+                                        )} placeholder="150" class="input input-bordered" />
                                     <label class="label">
                                         {errors.quantity?.type === 'min' && <span class="label-text-alt text-red-500">{errors.quantity.message}</span>}
                                         {orderError}
