@@ -16,6 +16,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Payment from './components/Pages/Payment/Payment';
 import ManageOrders from './components/Pages/Dashboard/ManageOrders';
 import MakeAdmin from './components/Pages/Dashboard/MakeAdmin';
+import Blogs from './components/Pages/Blogs/Blogs';
+import MyPortfolio from './components/Pages/MyPortfolio/MyPortfolio';
+import NotFound from './components/Pages/NotFound';
 
 function App() {
   return (
@@ -34,6 +37,9 @@ function App() {
           <Route path='payment/:id' element={<Payment></Payment>}></Route>
           <Route path='myprofile' element={<MyProfile></MyProfile>}></Route>
         </Route>
+        <Route path='/blogs' element={<Blogs></Blogs>}></Route>
+        <Route path='/myportfolio' element={<MyPortfolio></MyPortfolio>}></Route>
+        <Route path='*' element={<NotFound></NotFound>}></Route>
       </Routes>
       <Footer></Footer>
       <ToastContainer />

@@ -28,6 +28,10 @@ const Navbar = () => {
                         {
                             user ? <li><Link to='/dashboard'>Dashboard</Link></li> : <></>
                         }
+                        <li><Link to='/blogs'>Blogs</Link></li>
+                        <li><Link to='/about'>About</Link></li>
+                        <li><Link to='/myportfolio'>My Portfolio</Link></li>
+
                     </ul>
                 </div>
                 <a class="normal-case text-xl"><img src={logo} className='w-48 m-0' alt="logo" /></a>
@@ -36,6 +40,8 @@ const Navbar = () => {
                 <ul class="menu menu-horizontal p-0">
                     <li><Link to='/'>Home</Link></li>
                     <li><Link to='/about'>About</Link></li>
+                    <li><Link to='/blogs'>Blogs</Link></li>
+                    <li><Link to='/myportfolio'>My Portfolio</Link></li>
                     {
                         user ? <li><Link to='/dashboard'>Dashboard</Link></li> : <></>
                     }
