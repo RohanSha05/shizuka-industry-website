@@ -7,9 +7,11 @@ const CheckoutForm = ({ order }) => {
     const elements = useElements();
     const [cardError, setcardError] = useState('');
     const [success, setSuccess] = useState('');
+    const [processing, setProcessing] = useState(false);
     const [clientSecret, setClientSecret] = useState('');
+    const [transactionId, setTransactionId] = useState('');
 
-    const { totalPrice, customerName, customerEmail } = order;
+    const { _id, totalPrice, customerName, customerEmail } = order;
     const price = totalPrice;
     useEffect(() => {
         if (price) {
@@ -47,7 +49,8 @@ const CheckoutForm = ({ order }) => {
         });
 
         setcardError(error?.message || '');
-        setSuccess('')
+        setSuccess('');
+        setProcessing(true);
 
 
         const { paymentIntent, error: intentError } = await stripe.confirmCardPayment(
@@ -63,13 +66,34 @@ const CheckoutForm = ({ order }) => {
             },
         );
 
+
         if (intentError) {
-            setcardError(intentError.message)
-            success = ('')
+            setcardError(intentError?.message);
+            setProcessing(false)
         }
         else {
             setcardError('');
-            setSuccess('Congrats Your Payment is Completed')
+            setSuccess('Congrats ! Your Payment is Completed');
+            console.log(paymentIntent);
+            setTransactionId(paymentIntent.id);
+
+            //
+            const payment = {
+                order: _id,
+                transactionId: paymentIntent.id
+            }
+            fetch(`http://localhost:5000/order/${_id}`, {
+                method: 'PATCH',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(payment)
+            }).then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    setProcessing(false)
+                })
+
         }
     }
 
@@ -100,7 +124,10 @@ const CheckoutForm = ({ order }) => {
                 cardError && <p className='text-red-500'>{cardError}</p>
             }
             {
-                success && <p className='text-green-500'>{success}</p>
+                success && <div>
+                    <p className='text-green-500'>{success}  </p>
+                    <p>Your Transaction Id: <span className=' text-orange-500 font-bold mt-4'>{transactionId}</span></p>
+                </div>
             }
         </>
     );

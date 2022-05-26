@@ -14,6 +14,8 @@ import Purchase from './components/Purchase/Purchase';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Payment from './components/Pages/Payment/Payment';
+import ManageOrders from './components/Pages/Dashboard/ManageOrders';
+import MakeAdmin from './components/Pages/Dashboard/MakeAdmin';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route path='/dashboard' element={<Dashboard></Dashboard>}>
           <Route index element={<MyOrders></MyOrders>}></Route>
           <Route path='addreview' element={<AddReview></AddReview>}></Route>
+          <Route path='manageorders' element={<ManageOrders></ManageOrders>}></Route>
+          <Route path='users' element={<MakeAdmin></MakeAdmin>}></Route>
           <Route path='payment/:id' element={<Payment></Payment>}></Route>
           <Route path='myprofile' element={<MyProfile></MyProfile>}></Route>
         </Route>

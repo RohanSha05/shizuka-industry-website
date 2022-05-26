@@ -1,26 +1,39 @@
+import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init';
-import Part from '../Home/Parts/Part';
 
 const MyOrders = () => {
 
     const [orders, setOrders] = useState([]);
     const [user] = useAuthState(auth);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (user) {
-            fetch(`http://localhost:5000/order?customer=${user.email}`)
-                .then(res => res.json())
-                .then(data => setOrders(data))
+            fetch(`http://localhost:5000/order?customerEmail=${user.email}`, {
+                method: 'GET',
+                headers: {
+                    'authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                }
+            })
+                .then(res => {
+                    console.log('res', res)
+                    if (res.status === 401 || res.status === 403) {
+                        signOut(auth);
+                        localStorage.removeItem('accessToken');
+                        navigate('/');
+                    }
+                    return res.json()
+                })
+                .then(data => {
+                    setOrders(data)
+                })
         }
     }, [user])
 
     const handleDeleteOrder = id => {
-        // const proceed = window.confirm('Are you sure to delete');
-        // if (proceed) {
-        console.log('deleting', id)
         const url = `http://localhost:5000/order/${id}`
         fetch(url, {
             method: 'DELETE'
@@ -33,8 +46,6 @@ const MyOrders = () => {
                     setOrders(remaining)
                 }
             })
-        // }
-
     }
 
     return (
@@ -57,10 +68,10 @@ const MyOrders = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {orders.map(order => <tr>
+                        {orders.map((order, index) => <tr key={index}>
                             <th>
                                 <label>
-                                    <input type="checkbox" class="checkbox" />
+                                    {index + 1}
                                 </label>
                             </th>
                             <td>
@@ -91,10 +102,15 @@ const MyOrders = () => {
                                         (!order.paid) && <Link className='btn btn-primary btn-xs' to={`/dashboard/payment/${order._id}`}>Payment</Link>
                                     }
                                     {
-                                        (order.paid) && <Link className='btn btn-success btn-xs' to={``}></Link>
+                                        (order.paid) && <div>
+                                            <p className='btn btn-success ml-4 btn-xs' to={``} >PAID</p>
+                                            <p className=' font-semibold'>Transaction Id: <span className='text-success'>{order.transactionId}</span></p>
+                                        </div>
                                     }
                                 </div>
-                                <label for="delete-modal" class="btn modal-button btn-xs btn-primary ml-4">Delete</label>
+                                {
+                                    (!order.paid) && <label for="delete-modal" class="btn modal-button btn-xs btn-primary ml-4">Cancel</label>
+                                }
 
                                 <input type="checkbox" id="delete-modal" class="modal-toggle" />
                                 <div class="modal modal-bottom sm:modal-middle">
@@ -113,13 +129,9 @@ const MyOrders = () => {
 
                     </tbody>
                     {/* <!-- foot --> */}
-                    <tfoot>
+                    <tfoot className='mt-5'>
                         <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Job</th>
-                            <th>Favorite Color</th>
-                            <th></th>
+
                         </tr>
                     </tfoot>
 

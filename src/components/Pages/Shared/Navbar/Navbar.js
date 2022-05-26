@@ -12,6 +12,7 @@ const Navbar = () => {
 
     const logout = () => {
         signOut(auth);
+        localStorage.removeItem('accessToken');
     }
 
     return (
@@ -46,7 +47,7 @@ const Navbar = () => {
                         <div className='flex '>
                             <p className=' font-bold flex items-center mr-3'>{user.displayName}</p>
                             <div className='avatar online w-14'>
-                                <img src={user.photoURL || gUser.photoURL} className=' rounded-full' alt="" />
+                                <img src={user?.photoURL || gUser?.photoURL} className=' rounded-full' alt="" />
                             </div>
                         </div> : <></>
                 }

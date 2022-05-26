@@ -31,11 +31,6 @@ const Purchase = () => {
 
 
     const onSubmit = data => {
-        // data.prdataDefault();
-        // console.log(data)
-        /* const quantity = data.target.quantity.value;
-        const phoneNumber = data.target.phone.value; */
-        // navigate('/dashboard')
 
         const quantity = data.quantity;
         const totalPrice = quantity * price;
@@ -47,6 +42,7 @@ const Purchase = () => {
             parts: name,
             totalPrice: totalPrice,
             customerEmail: data.email,
+            quantity: quantity,
             CustomerName: data.name,
             contact: data.number,
             image: img
