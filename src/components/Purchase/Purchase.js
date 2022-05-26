@@ -15,7 +15,7 @@ const Purchase = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const url = `http://localhost:5000/part/${partId}`;
+        const url = `https://afternoon-earth-96946.herokuapp.com/part/${partId}`;
 
         fetch(url)
             .then(res => res.json())
@@ -48,7 +48,7 @@ const Purchase = () => {
             image: img
         }
 
-        fetch('http://localhost:5000/order', {
+        fetch('https://afternoon-earth-96946.herokuapp.com/order', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

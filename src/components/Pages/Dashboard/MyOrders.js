@@ -12,7 +12,7 @@ const MyOrders = () => {
 
     useEffect(() => {
         if (user) {
-            fetch(`http://localhost:5000/order?customerEmail=${user.email}`, {
+            fetch(`https://afternoon-earth-96946.herokuapp.com/order?customerEmail=${user.email}`, {
                 method: 'GET',
                 headers: {
                     'authorization': `Bearer ${localStorage.getItem('accessToken')}`
@@ -34,7 +34,7 @@ const MyOrders = () => {
     }, [user])
 
     const handleDeleteOrder = id => {
-        const url = `http://localhost:5000/order/${id}`
+        const url = `https://afternoon-earth-96946.herokuapp.com/order/${id}`
         fetch(url, {
             method: 'DELETE'
         })
