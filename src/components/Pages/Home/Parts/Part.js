@@ -28,7 +28,6 @@ const Part = ({ part }) => {
                 <p><span className='font-medium'>Price:</span> ${price}</p>
                 <p className='text-yellow-500'><span className='font-medium'>Minimum Quantity:</span> {minQuantity}</p>
                 <p><span className='font-medium'>Available Quantity:</span> {availableQuantity}</p>
-                <p></p>
                 <div class="card-actions">
                     <button onClick={() => navigateToPurchase(_id)} class="btn btn-primary">Buy Now</button>
                 </div>

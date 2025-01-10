@@ -5,7 +5,7 @@ const AdminRow = ({ user, refetch }) => {
     const { email, index, role } = user;
 
     const handleAdmin = () => {
-        fetch(`https://afternoon-earth-96946.herokuapp.com/user/admin/${email}`, {
+        fetch(`http://localhost:5000/user/admin/${email}`, {
             method: 'PUT',
             headers: {
                 authorization: `Bearer ${localStorage.getItem('accessToken')}`

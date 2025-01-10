@@ -9,7 +9,7 @@ const MyPortfolio = () => {
                 <div className='p-10'>
                     <div className='bg-slate-600 text-center p-12'>
                         <p>Name: Rafat Shariar Rohan</p>
-                        <p>Email: rhnshariar@gmail.com</p>
+                        <p>Email: rohan15-4813@diu.edu.bd</p>
                         <h2>Studying B.Sc. in CSE at Daffodil International University</h2>
                     </div>
                 </div>

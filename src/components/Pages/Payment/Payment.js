@@ -9,7 +9,7 @@ const stripePromise = loadStripe('pk_test_51L36GvHVV2lkEzs1DNuLtFyDE5w9FSEo4RxXl
 
 const Payment = () => {
     const { id } = useParams();
-    const url = `https://afternoon-earth-96946.herokuapp.com/order/${id}`;
+    const url = `http://localhost:5000/order/${id}`;
 
     const [order, setOrder] = useState([]);
 
