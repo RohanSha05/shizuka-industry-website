@@ -6,9 +6,11 @@ const Parts = () => {
     const [items, setItems] = useState(null)
 
     useEffect(() => {
-        fetch('http://localhost:5000/part')
-            .then(res => res.json())
-            .then(data => setParts(data))
+        fetch(
+					"shizuka-industries-server-rohans-projects-4dad61e9.vercel.app/part"
+				)
+					.then((res) => res.json())
+					.then((data) => setParts(data));
     }, [])
 
     const sixParts = parts.slice(0, 6)

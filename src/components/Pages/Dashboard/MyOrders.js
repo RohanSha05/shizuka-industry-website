@@ -11,42 +11,45 @@ const MyOrders = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user) {
-            fetch(`http://localhost:5000/order?customerEmail=${user.email}`, {
-                method: 'GET',
-                headers: {
-                    'authorization': `Bearer ${localStorage.getItem('accessToken')}`
-                }
-            })
-                .then(res => {
-                    console.log('res', res)
-                    if (res.status === 401 || res.status === 403) {
-                        signOut(auth);
-                        localStorage.removeItem('accessToken');
-                        navigate('/');
-                    }
-                    return res.json()
-                })
-                .then(data => {
-                    setOrders(data)
-                })
-        }
-    }, [user])
+			if (user) {
+				fetch(
+					`shizuka-industries-server-rohans-projects-4dad61e9.vercel.app/order?customerEmail=${user.email}`,
+					{
+						method: "GET",
+						headers: {
+							authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+						},
+					}
+				)
+					.then((res) => {
+						console.log("res", res);
+						if (res.status === 401 || res.status === 403) {
+							signOut(auth);
+							localStorage.removeItem("accessToken");
+							navigate("/");
+						}
+						return res.json();
+					})
+					.then((data) => {
+						setOrders(data);
+					});
+			}
+		}, [user]);
 
-    const handleDeleteOrder = id => {
-        const url = `http://localhost:5000/order/${id}`
-        fetch(url, {
-            method: 'DELETE'
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.deletedCount > 0) {
-                    console.log('deleted');
-                    const remaining = orders.filter(order => order._id !== id)
-                    setOrders(remaining)
-                }
-            })
-    }
+		const handleDeleteOrder = (id) => {
+			const url = `shizuka-industries-server-rohans-projects-4dad61e9.vercel.app/order/${id}`;
+			fetch(url, {
+				method: "DELETE",
+			})
+				.then((res) => res.json())
+				.then((data) => {
+					if (data.deletedCount > 0) {
+						console.log("deleted");
+						const remaining = orders.filter((order) => order._id !== id);
+						setOrders(remaining);
+					}
+				});
+		};
 
     return (
         <div>

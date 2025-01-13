@@ -14,88 +14,88 @@ const CheckoutForm = ({ order }) => {
     const { _id, totalPrice, customerName, customerEmail } = order;
     const price = totalPrice;
     useEffect(() => {
-        if (price) {
-            fetch('http://localhost:5000/create-payment-intent', {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify({ price })
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data?.clientSecret) {
-                        setClientSecret(data.clientSecret);
-                    }
-                })
-        }
+			if (price) {
+				fetch(
+					"shizuka-industries-server-rohans-projects-4dad61e9.vercel.app/create-payment-intent",
+					{
+						method: "POST",
+						headers: {
+							"content-type": "application/json",
+						},
+						body: JSON.stringify({ price }),
+					}
+				)
+					.then((res) => res.json())
+					.then((data) => {
+						if (data?.clientSecret) {
+							setClientSecret(data.clientSecret);
+						}
+					});
+			}
+		}, [price]);
 
-    }, [price])
+		const handleSubmit = async (event) => {
+			event.preventDefault();
+			if (!stripe || !elements) {
+				return;
+			}
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        if (!stripe || !elements) {
-            return;
-        }
+			const card = elements.getElement(CardElement);
+			if (card === null) {
+				return;
+			}
 
-        const card = elements.getElement(CardElement);
-        if (card === null) {
-            return;
-        }
+			const { error, paymentMethod } = await stripe.createPaymentMethod({
+				type: "card",
+				card,
+			});
 
-        const { error, paymentMethod } = await stripe.createPaymentMethod({
-            type: 'card',
-            card
-        });
+			setcardError(error?.message || "");
+			setSuccess("");
+			setProcessing(true);
 
-        setcardError(error?.message || '');
-        setSuccess('');
-        setProcessing(true);
+			const { paymentIntent, error: intentError } =
+				await stripe.confirmCardPayment(clientSecret, {
+					payment_method: {
+						card: card,
+						billing_details: {
+							name: customerName,
+							email: customerEmail,
+						},
+					},
+				});
 
+			if (intentError) {
+				setcardError(intentError?.message);
+				setProcessing(false);
+			} else {
+				setcardError("");
+				setSuccess("Congrats ! Your Payment is Completed");
+				console.log(paymentIntent);
+				setTransactionId(paymentIntent.id);
 
-        const { paymentIntent, error: intentError } = await stripe.confirmCardPayment(
-            clientSecret,
-            {
-                payment_method: {
-                    card: card,
-                    billing_details: {
-                        name: customerName,
-                        email: customerEmail
-                    },
-                },
-            },
-        );
-
-
-        if (intentError) {
-            setcardError(intentError?.message);
-            setProcessing(false)
-        }
-        else {
-            setcardError('');
-            setSuccess('Congrats ! Your Payment is Completed');
-            console.log(paymentIntent);
-            setTransactionId(paymentIntent.id);
-
-            //
-            const payment = {
-                order: _id,
-                transactionId: paymentIntent.id
-            }
-            fetch(`http://localhost:5000/order/${_id}`, {
-                method: 'PATCH',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(payment)
-            }).then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    setProcessing(false)
-                })
-
-        }
-    }
+				//
+				const payment = {
+					order: _id,
+					transactionId: paymentIntent.id,
+				};
+				fetch(
+					`shizuka-industries-server-rohans-projects-4dad61e9.vercel.app/order/${_id}`,
+					{
+						method: "PATCH",
+						headers: {
+							"content-type": "application/json",
+						},
+						body: JSON.stringify(payment),
+					}
+				)
+					.then((res) => res.json())
+					.then((data) => {
+						console.log(data);
+						setProcessing(false);
+					});
+			}
+		};
 
     return (
         <>

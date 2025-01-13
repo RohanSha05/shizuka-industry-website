@@ -5,24 +5,27 @@ const AdminRow = ({ user, refetch }) => {
     const { email, index, role } = user;
 
     const handleAdmin = () => {
-        fetch(`http://localhost:5000/user/admin/${email}`, {
-            method: 'PUT',
-            headers: {
-                authorization: `Bearer ${localStorage.getItem('accessToken')}`
-            }
-        })
-            .then(res => {
-                if (res.status === 403) {
-                    toast.error('Failed to make admin');
-                }
-                return res.json()
-            })
-            .then(data => {
-                if (data.modifiedCount > 0) {
-                    refetch();
-                    toast.success(`Successfully made an Admin`);
-                }
-            })
+        fetch(
+					`shizuka-industries-server-rohans-projects-4dad61e9.vercel.app/user/admin/${email}`,
+					{
+						method: "PUT",
+						headers: {
+							authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+						},
+					}
+				)
+					.then((res) => {
+						if (res.status === 403) {
+							toast.error("Failed to make admin");
+						}
+						return res.json();
+					})
+					.then((data) => {
+						if (data.modifiedCount > 0) {
+							refetch();
+							toast.success(`Successfully made an Admin`);
+						}
+					});
     }
     return (
         <tr>

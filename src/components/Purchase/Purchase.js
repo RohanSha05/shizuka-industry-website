@@ -15,53 +15,57 @@ const Purchase = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const url = `http://localhost:5000/part/${partId}`;
+			const url = `shizuka-industries-server-rohans-projects-4dad61e9.vercel.app/part/${partId}`;
 
-        fetch(url)
-            .then(res => res.json())
-            .then(data => setPart(data))
-    }, [])
+			fetch(url)
+				.then((res) => res.json())
+				.then((data) => setPart(data));
+		}, []);
 
-    const { _id, name, availableQuantity, description, img, price } = part;
+		const { _id, name, availableQuantity, description, img, price } = part;
 
-    const { register, formState: { errors }, handleSubmit = () => { } } = useForm();
+		const {
+			register,
+			formState: { errors },
+			handleSubmit = () => {},
+		} = useForm();
 
+		let orderError;
 
-    let orderError;
+		const onSubmit = (data) => {
+			const quantity = data.quantity;
+			const totalPrice = quantity * price;
 
+			console.log(totalPrice);
 
-    const onSubmit = data => {
+			const order = {
+				partsId: _id,
+				parts: name,
+				totalPrice: totalPrice,
+				customerEmail: data.email,
+				quantity: quantity,
+				CustomerName: data.name,
+				contact: data.number,
+				image: img,
+			};
 
-        const quantity = data.quantity;
-        const totalPrice = quantity * price;
+			fetch(
+				"shizuka-industries-server-rohans-projects-4dad61e9.vercel.app/order",
+				{
+					method: "POST",
+					headers: {
+						"content-type": "application/json",
+					},
+					body: JSON.stringify(order),
+				}
+			)
+				.then((res) => res.json())
+				.then((data) => {
+					toast("Order Delivered Successfully", data);
+				});
 
-        console.log(totalPrice)
-
-        const order = {
-            partsId: _id,
-            parts: name,
-            totalPrice: totalPrice,
-            customerEmail: data.email,
-            quantity: quantity,
-            CustomerName: data.name,
-            contact: data.number,
-            image: img
-        }
-
-        fetch('http://localhost:5000/order', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(order)
-        })
-            .then(res => res.json())
-            .then(data => {
-                toast('Order Delivered Successfully', data)
-            })
-
-        // console.log(order);
-    };
+			// console.log(order);
+		};
 
 
 

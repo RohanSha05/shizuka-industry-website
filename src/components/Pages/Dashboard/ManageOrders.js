@@ -4,7 +4,11 @@ import Loading from '../Shared/Loading';
 import UserRow from './UserRow';
 
 const ManageOrders = () => {
-    const { data: order, isLoading } = useQuery('order', () => fetch('http://localhost:5000/orders').then(res => res.json()))
+    const { data: order, isLoading } = useQuery("order", () =>
+			fetch(
+				"shizuka-industries-server-rohans-projects-4dad61e9.vercel.app/orders"
+			).then((res) => res.json())
+		);
     if (isLoading) {
         return <Loading></Loading>
     }

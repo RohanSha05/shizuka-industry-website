@@ -5,17 +5,22 @@ const useAdmin = user => {
     useEffect(() => {
         const email = user?.email;
         if (email) {
-            fetch(`http://localhost:5000/admin/${email}`, {
-                method: 'GET',
-                headers: {
-                    'content-type': 'application/json',
-                    authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    setAdmin(data.admin);
-                })
+            fetch(
+							`shizuka-industries-server-rohans-projects-4dad61e9.vercel.app/admin/${email}`,
+							{
+								method: "GET",
+								headers: {
+									"content-type": "application/json",
+									authorization: `Bearer ${localStorage.getItem(
+										"accessToken"
+									)}`,
+								},
+							}
+						)
+							.then((res) => res.json())
+							.then((data) => {
+								setAdmin(data.admin);
+							});
 
         }
     }, [user])
